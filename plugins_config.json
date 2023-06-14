@@ -1,0 +1,10 @@
+{
+    "plugins": {
+      "weather_example_plugin": {
+        "enabled": true
+      },
+      "another_plugin": {
+        "enabled": false
+      }
+    }
+  }
