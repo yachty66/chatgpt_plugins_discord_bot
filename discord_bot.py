@@ -8,6 +8,7 @@ import openai
 
 intents = discord.Intents.all()
 bot = discord.Bot(intents=intents)
+openai.api_key = config.openai_key
 
 class DiscordBot():
     def __init__(self):
@@ -23,48 +24,34 @@ class DiscordBot():
     def get_functions(self):
         with open("plugins_settings.json", "r") as file:
             plugins = json.load(file)
-            
-        '''
-        inside the plugins variable i have the follwing format:
-        
-                {
-            "plugins": {
-            "weather_example_plugin": {
-                "enabled": true
-            },
-            "another_plugin": {
-                "enabled": true
-            }
-            }
-        }
-        '''
         enabled_plugins = [plugin for plugin, settings in plugins["plugins"].items() if settings["enabled"]]
-        print("enabled_plugins")
-        print(enabled_plugins)
-        #get all the functions and return them
-        #iter over all the folder in plugins folder and extract for each folder name who appears in enabled_plugins the function which is inside functions.json
         functions = []
         for plugin in enabled_plugins:
             with open(f"plugins/{plugin}/functions.json", "r") as file:
                 plugin_functions = json.load(file)
-                #add json to functions
                 functions.append(plugin_functions)
+        #todo remove code duplication
+        combined_functions = []
+        for func_list in functions:
+            combined_functions.extend(func_list)
+        functions = combined_functions
         return functions
-                
 
     def process_message(self, ctx, message):
-        #need to get all the functions
-        functions = self.get_functions()
+        functions = self.get_functions()        
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-0613",
             messages=[{"role": "user", "content": "What's the weather like in Boston?"}],
-            #need to make sure that i have certain format which is required here 
             functions=functions,
             function_call="auto",
         )
         message = response["choices"][0]["message"]
-        print("message")
-        print(message)
+        
+        if message.get("function_call"):
+            print("inside")
+            function_name = message["function_call"]["name"]
+            #depending on which function i have here i need to call a certain 
+            
 
     
     def run(self):
