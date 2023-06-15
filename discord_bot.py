@@ -65,15 +65,11 @@ class DiscordBot():
             spec = importlib.util.spec_from_file_location(f"plugins.{plugin_folder}.{plugin_folder}", plugin_path)
             plugin_module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(plugin_module)
-            #tries to get the class here. can make naming convention for class name
-            #hello_my_name_is_jeff is always going to be the class name = plugin_folder
-            #pluging folder has always the format like hello_my_name --> needs to be converted to HelloMyName
             plugin_folder_parts = plugin_folder.split('_')
             plugin_folder = ''.join([part.capitalize() for part in plugin_folder_parts])
-            
             plugin_class = getattr(plugin_module, plugin_folder)(message, function_name)
-            print("function result:")
-            print(plugin_class)
+            response = plugin_class.get_response()
+            return response
                 
                 
     def run(self):

@@ -6,7 +6,7 @@ class WeatherExamplePlugin():
     def __init__(self, message, function_name):
         self.message = message
         self.function_name = function_name
-        self.run_conversation()
+        self.response = self.run_conversation()
     
     def get_current_weather(self, location, unit="fahrenheit"):
         """Get the current weather in a given location"""
@@ -36,4 +36,8 @@ class WeatherExamplePlugin():
             },
         ],
         )
+        second_response = second_response["choices"][0]["message"]["content"]
         return second_response
+    
+    def get_response(self):
+        return self.response
