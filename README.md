@@ -59,4 +59,4 @@ To create your own plugin, follow these steps:
 
 ## Contributing
 
-I accept pull requests so that this repository can grow with a diversity of plugins like the ChatGPT from OpenAI.
+I accept pull requests so that this repository can grow with a diversity of plugins like the ChatGPT from OpenAI. If you have any questions or need assistance, feel free to open an [issue](https://github.com/yachty66/chatgpt_plugins_discord_bot/issues) on GitHub or reach out to me on [Twitter](https://twitter.com/MaxHager66). 
