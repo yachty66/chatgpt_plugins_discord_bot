@@ -25,8 +25,6 @@ class DiscordBot():
             await ctx.defer()
             response = await self.process_message(ctx, message)
             await ctx.respond(response)
-            print("over")
-
             
     def get_functions(self):
         with open("plugins_settings.json", "r") as file:
@@ -54,6 +52,9 @@ class DiscordBot():
             function_call="auto",
         )
         message = response["choices"][0]["message"]
+        print("Message:", message)
+        #in the case no function call was triggered --> 
+        
         
         if message.get("function_call"):
             function_name = message["function_call"]["name"]
@@ -72,6 +73,9 @@ class DiscordBot():
             plugin_class = getattr(plugin_module, plugin_folder)(message, function_name)
             response = plugin_class.get_response()
             return response
+        else:
+            return message["content"]
+            
                 
     def run(self):
         bot.run(config.bot_token)
