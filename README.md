@@ -1,10 +1,13 @@
-# WeatherBot
+# ChatgptPluginsDiscordBot
 
-WeatherBot is a Discord bot that uses OpenAI's GPT-3.5-turbo to provide weather information and other plugin-based functionalities. It is designed to be easily extensible with custom plugins, allowing you to add new features and commands.
+
+ChatgptPluginsDiscordBot is a Discord bot that uses OpenAI's [function calling API](https://platform.openai.com/docs/guides/gpt/function-calling). It is designed to be easily extensible with custom plugins, allowing you to add new ones.
 
 ## Features
 
-- Get current weather information for a specified location
+<iframe src="https://giphy.com/embed/kj2k4sqiyGMcWiES9W" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/kj2k4sqiyGMcWiES9W">via GIPHY</a></p>
+
+- Discord bot who
 - Easily extensible with custom plugins
 - Utilizes OpenAI's GPT-3.5-turbo for natural language processing
 
