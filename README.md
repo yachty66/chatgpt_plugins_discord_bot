@@ -5,7 +5,7 @@ ChatgptPluginsDiscordBot is a Discord bot that uses OpenAI's [function calling A
 
 ## Features
 
-<iframe src="https://giphy.com/embed/kj2k4sqiyGMcWiES9W" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/kj2k4sqiyGMcWiES9W">via GIPHY</a></p>
+![Giphy](https://media.giphy.com/media/kj2k4sqiyGMcWiES9W/giphy.gif)
 
 - Discord bot who
 - Easily extensible with custom plugins
