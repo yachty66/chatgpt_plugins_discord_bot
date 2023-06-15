@@ -1,10 +1,7 @@
 {
-    "plugins": {
-      "weather_example_plugin": {
-        "enabled": true
-      },
-      "another_plugin": {
-        "enabled": true
-      }
+  "plugins": {
+    "weather_example_plugin": {
+      "enabled": true
     }
   }
+}
