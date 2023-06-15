@@ -19,9 +19,9 @@ class DiscordBot():
         
     def register_commands(self):
         @bot.slash_command(name="chat", description="Use chatgpt plugins", guild_ids=[config.guild_id])
-        #on chat command send message to process_message method
         async def on_chat(ctx, message: str):
-            await self.process_message(ctx, message)
+            response = await self.process_message(ctx, message)
+            await ctx.send(response)
             
     def get_functions(self):
         with open("plugins_settings.json", "r") as file:
@@ -53,14 +53,12 @@ class DiscordBot():
         if message.get("function_call"):
             print("inside")
             function_name = message["function_call"]["name"]
-            #iter over each file and check where name appears, if name appeared then get name of parent folder
             for plugin in self.plugins:
                 with open(f"plugins/{plugin}/functions.json", "r") as file:
                     plugin_functions = json.load(file)
                     for function in plugin_functions:
                         if function["name"] == function_name:
                             plugin_folder = plugin                
-            plugin_file = plugin_folder + ".py"
             plugin_path = f"plugins/{plugin_folder}/{plugin_folder}.py"
             spec = importlib.util.spec_from_file_location(f"plugins.{plugin_folder}.{plugin_folder}", plugin_path)
             plugin_module = importlib.util.module_from_spec(spec)
@@ -70,7 +68,6 @@ class DiscordBot():
             plugin_class = getattr(plugin_module, plugin_folder)(message, function_name)
             response = plugin_class.get_response()
             return response
-                
                 
     def run(self):
         bot.run(config.bot_token)
