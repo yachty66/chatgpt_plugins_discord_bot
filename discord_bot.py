@@ -5,7 +5,7 @@ from discord.ext import commands
 import config
 import json
 import openai 
-import importlib
+import importlib.util
 
 intents = discord.Intents.all()
 bot = discord.Bot(intents=intents)
@@ -40,7 +40,7 @@ class DiscordBot():
         functions = combined_functions
         return functions
 
-    def process_message(self, ctx, message):
+    async def process_message(self, ctx, message):
         functions = self.get_functions()        
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-0613",
@@ -51,7 +51,6 @@ class DiscordBot():
         message = response["choices"][0]["message"]
         
         if message.get("function_call"):
-            function_name = message["function_call"]["name"]
             print("inside")
             function_name = message["function_call"]["name"]
             #iter over each file and check where name appears, if name appeared then get name of parent folder
@@ -62,13 +61,21 @@ class DiscordBot():
                         if function["name"] == function_name:
                             plugin_folder = plugin                
             plugin_file = plugin_folder + ".py"
-            plugin_module = importlib.import_module(f"plugins.{plugin_folder}.{plugin_file}")
-            plugin_class = getattr(plugin_module, plugin_file)()
+            plugin_path = f"plugins/{plugin_folder}/{plugin_folder}.py"
+            spec = importlib.util.spec_from_file_location(f"plugins.{plugin_folder}.{plugin_folder}", plugin_path)
+            plugin_module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(plugin_module)
+            #tries to get the class here. can make naming convention for class name
+            #hello_my_name_is_jeff is always going to be the class name = plugin_folder
+            #pluging folder has always the format like hello_my_name --> needs to be converted to HelloMyName
+            plugin_folder_parts = plugin_folder.split('_')
+            plugin_folder = ''.join([part.capitalize() for part in plugin_folder_parts])
+            
+            plugin_class = getattr(plugin_module, plugin_folder)(message, function_name)
             print("function result:")
             print(plugin_class)
                 
-
-    
+                
     def run(self):
         bot.run(config.bot_token)
         
