@@ -10,6 +10,9 @@ be the number one open source project which is used for chatgpt plugins api.
 
 
 
+- [x] make input not hardcoded
+- [ ] deal with timeouts 
+
 - [ ] outreach
     - [ ] respond to marco with the project ive build
 

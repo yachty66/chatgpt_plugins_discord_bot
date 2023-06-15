@@ -1,4 +1,5 @@
 import discord
+import asyncio
 from discord import option
 from discord import Embed
 from discord.ext import commands
@@ -6,6 +7,7 @@ import config
 import json
 import openai 
 import importlib.util
+import time
 
 intents = discord.Intents.all()
 bot = discord.Bot(intents=intents)
@@ -20,8 +22,11 @@ class DiscordBot():
     def register_commands(self):
         @bot.slash_command(name="chat", description="Use chatgpt plugins", guild_ids=[config.guild_id])
         async def on_chat(ctx, message: str):
+            await ctx.defer()
             response = await self.process_message(ctx, message)
-            await ctx.send(response)
+            await ctx.respond(response)
+            print("over")
+
             
     def get_functions(self):
         with open("plugins_settings.json", "r") as file:
@@ -44,14 +49,13 @@ class DiscordBot():
         functions = self.get_functions()        
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-0613",
-            messages=[{"role": "user", "content": "What's the weather like in Boston?"}],
+            messages=[{"role": "user", "content": message }],
             functions=functions,
             function_call="auto",
         )
         message = response["choices"][0]["message"]
         
         if message.get("function_call"):
-            print("inside")
             function_name = message["function_call"]["name"]
             for plugin in self.plugins:
                 with open(f"plugins/{plugin}/functions.json", "r") as file:
