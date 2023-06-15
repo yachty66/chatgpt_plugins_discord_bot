@@ -1,21 +1,55 @@
-# chatgpt_plugins_discord_bot
+# WeatherBot
 
-the question is how i am going to implement this. either i do a seperate bot or 
+WeatherBot is a Discord bot that uses OpenAI's GPT-3.5-turbo to provide weather information and other plugin-based functionalities. It is designed to be easily extensible with custom plugins, allowing you to add new features and commands.
 
-goal is to implement two plugins, weather and another one to demonstrate how it works
+## Features
 
-goal:
+- Get current weather information for a specified location
+- Easily extensible with custom plugins
+- Utilizes OpenAI's GPT-3.5-turbo for natural language processing
 
-be the number one open source project which is used for chatgpt plugins api. 
+## Installation
 
+1. Clone the repository
+2. Install the required dependencies
+3. Set up your OpenAI API key and Discord bot token in the config.py file
+4. Run the bot using python discord_bot.py
 
+## Usage
 
-- [x] make input not hardcoded
-- [ ] deal with timeouts 
+To get the current weather information, use the following command:
+?
 
-- [ ] outreach
-    - [ ] respond to marco with the project ive build
+Replace [location] with the desired city and state, e.g., "San Francisco, CA".
 
-- [ ] youtube 
-    - [ ] create youtube video with artificial character who is explaining the chatgpt plugin bot
-    - [ ] make super sick thumnail and stuff
+## Creating Your Own Plugins
+
+To create your own plugin, follow these steps:
+
+1. Create a new folder inside the plugins directory with the format your_plugin_name_plugin. For example, weather_example_plugin.
+
+2. Inside the new folder, create two files: functions.json and your_plugin_name_plugin.py. For example, weather_example_plugin.py.
+
+3. In the functions.json file, define the functions that your plugin will provide. The format should be as follows:
+]
+
+4. In the your_plugin_name_plugin.py file, create a class with the same name as your plugin folder, but in CamelCase format. For example, WeatherExamplePlugin. This class should have an __init__ method, a method for each function defined in functions.json, and any additional helper methods as needed.
+
+5. In the plugins_settings.json file, add your plugin to the plugins object and set its enabled property to true. For example:
+}
+
+6. Restart the bot to load your new plugin.
+
+## Naming Conventions
+
+- Plugin folder names should be in snake_case format and end with _plugin. For example, weather_example_plugin.
+- Function names in functions.json should be in snake_case format. For example, get_current_weather.
+- Class names in the plugin's Python file should be in CamelCase format. For example, WeatherExamplePlugin.
+
+## Contributing
+
+We welcome contributions to improve WeatherBot. If you have any suggestions or bug reports, please create an issue or submit a pull request.
+
+## License
+
+WeatherBot is released under the [MIT License](LICENSE). 
